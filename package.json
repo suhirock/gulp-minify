@@ -17,14 +17,6 @@
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^2.0.0"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://waiya@bitbucket.org/boneweb/lc_hirocoledge.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/boneweb/lc_hirocoledge#readme"
-}
+  "author": "suhirock",
+  "license": "MIT",
+  }
