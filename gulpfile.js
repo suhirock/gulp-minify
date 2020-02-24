@@ -49,6 +49,7 @@ gulp.task('imagemin', (done) => {
 gulp.task('svgsprite', (done) => {
 
 	let _src = argv.src || 'assets/images/svg/';
+	let _filename = argv.name || 'bundle.svg';
 	let _dest = argv.dest || 'assets/images/svg/';
 	
 	gulp.src(_src+'*.svg')
@@ -57,7 +58,7 @@ gulp.task('svgsprite', (done) => {
 			mode:{
 				symbol: {
 					dest: './',
-					sprite: 'symbols.svg',
+					sprite: _filename,
 				},
 			},
 			shape: {
