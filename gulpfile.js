@@ -6,20 +6,76 @@ const uglifyES = require('gulp-uglify-es').default;
 const cleanCSS = require('gulp-clean-css');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
+const svgSprite = require('gulp-svg-sprite');
+const minimist = require('minimist');
+
+// コマンドライン引数取得
+const argv = minimist(process.argv.slice(2));
 
 // image minify
 gulp.task('imagemin', (done) => {
-	gulp.src('src/images/**/*.{jpg,png,svg,gif}')
+	
+	let _src = argv.src || 'src/images/';
+	let _dest = argv.dest || 'assets/images/';
+
+	gulp.src(_src+'**/*.{jpg,png,svg,gif}')
 		.pipe(imagemin([
 			imageminPngquant('70-85'),
 			imageminMozjpeg({
 				quality: 85
 			}),
-			imagemin.svgo(),
+			imagemin.svgo([
+				{ removeViewBox: false },
+				{ removeMetadata: false },
+				{ removeUnknownsAndDefaults: false },
+				{ convertShapeToPath: false },
+				{ collapseGroups: false },
+				{ cleanupIDs: false },
+			]),
 			imagemin.gifsicle(),
 			imagemin.optipng(),
 		]))
-		.pipe(gulp.dest('assets/images/'));
+		.pipe(gulp.dest(_dest));
+		
+	done();
+	}
+);
+
+/**
+ * create svg sprite
+ * 
+ * 画像名のIDでシンボル呼び出し
+ */
+gulp.task('svgsprite', (done) => {
+
+	let _src = argv.src || 'assets/images/svg/';
+	let _dest = argv.dest || 'assets/images/svg/';
+	
+	gulp.src(_src+'*.svg')
+		.pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
+		.pipe(svgSprite({
+			mode:{
+				symbol: {
+					dest: './',
+					sprite: 'symbols.svg',
+				},
+			},
+			shape: {
+				transform: [{
+					svgo: {
+						plugins: [
+							{ removeStyleElement: true },
+							{ removeAttrs: { attrs: 'fill' } },
+						],
+					},
+				}],
+			},
+			svg: {
+				xmlDeclaration: true,
+				doctypeDeclaration: false,
+			}
+		}))
+		.pipe(gulp.dest(_dest));
 		done();
 	}
 );
