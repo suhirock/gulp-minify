@@ -4,10 +4,11 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
-    "gulp-imagemin": "^7.1.0",
     "gulp": "^4.0.2",
-    "imagemin-pngquant": "^8.0.0",
-    "imagemin-mozjpeg": "^8.0.0"
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^7.1.0",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-pngquant": "^8.0.0"
   },
   "devDependencies": {
     "gulp-clean-css": "^4.2.0",

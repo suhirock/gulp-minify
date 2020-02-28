@@ -6,11 +6,21 @@ const uglifyES = require('gulp-uglify-es').default;
 const cleanCSS = require('gulp-clean-css');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
+const concat = require('gulp-concat');
 const svgSprite = require('gulp-svg-sprite');
 const minimist = require('minimist');
 
 // コマンドライン引数取得
+// シングルキーで渡すとエラーなのでダブルダッシュ -- で渡すほうが吉
 const argv = minimist(process.argv.slice(2));
+
+// concat css
+gulp.task('cssconcat', (done) => {
+	gulp.src(argv.css)
+    .pipe(concat('concat.css'))
+    .pipe(gulp.dest('concat/'));
+	done();
+});
 
 // image minify
 gulp.task('imagemin', (done) => {
