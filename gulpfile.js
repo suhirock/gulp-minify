@@ -7,6 +7,7 @@ const cleanCSS = require('gulp-clean-css');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const concat = require('gulp-concat');
+const rename = require('gulp-rename');
 const svgSprite = require('gulp-svg-sprite');
 const minimist = require('minimist');
 
@@ -17,7 +18,14 @@ const argv = minimist(process.argv.slice(2));
 // concat css
 gulp.task('cssconcat', (done) => {
 	gulp.src(argv.css)
-    .pipe(concat('concat.css'))
+    .pipe(concat(argv.build))
+    .pipe(gulp.dest('concat/'));
+	done();
+});
+gulp.task('cssmin-single', (done) => {
+	gulp.src(argv.css)
+	.pipe(cleanCSS())
+	.pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest('concat/'));
 	done();
 });
