@@ -19,7 +19,14 @@ const argv = minimist(process.argv.slice(2));
 // concat css
 gulp.task('cssconcat', (done) => {
 	gulp.src(argv.css)
-    .pipe(concat('concat.css'))
+    .pipe(concat(argv.build))
+    .pipe(gulp.dest('concat/'));
+	done();
+});
+gulp.task('cssmin-single', (done) => {
+	gulp.src(argv.css)
+	.pipe(cleanCSS())
+	.pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest('concat/'));
 	done();
 });
