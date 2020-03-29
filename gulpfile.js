@@ -7,6 +7,8 @@ const cleanCSS = require('gulp-clean-css');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const concat = require('gulp-concat');
+const rename = require('gulp-rename');
+const webp = require('gulp-webp');
 const svgSprite = require('gulp-svg-sprite');
 const minimist = require('minimist');
 
@@ -50,6 +52,31 @@ gulp.task('imagemin', (done) => {
 	done();
 	}
 );
+
+// image webp
+gulp.task('webp', (done) => {
+	let _src = argv.wsrc || 'src/images/';
+	let _dest = argv.wdest || 'assets/images/';
+	gulp.src(_src+'**/*.{jpg,png,gif,jpeg}')
+			.pipe(rename(function(path){
+				path.basename += path.extname
+			}))
+			.pipe(webp({
+				quality: 85,
+				method: 5
+			}))
+			.pipe(gulp.dest(_dest));
+	done();
+});
+
+// imageex = imagemin + webp
+// --src	:	imagemin src
+// --dest	:	imagemin dest
+// --wsrc	:	webp src
+// --wdest	:	webp dest
+gulp.task('imageex',gulp.series('imagemin','webp',function(done){ 
+	done();
+}));
 
 /**
  * create svg sprite
