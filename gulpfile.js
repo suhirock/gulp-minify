@@ -34,7 +34,7 @@ gulp.task('cssmin-single', (done) => {
 // image minify
 gulp.task('imagemin', (done) => {
 	
-	let _src = argv.src || 'src/images/';
+	let _src = argv.src || '_src/images/';
 	let _dest = argv.dest || 'assets/images/';
 
 	gulp.src(_src+'**/*.{jpg,png,svg,gif}')
@@ -62,7 +62,7 @@ gulp.task('imagemin', (done) => {
 
 // image webp
 gulp.task('webp', (done) => {
-	let _src = argv.wsrc || 'src/images/';
+	let _src = argv.wsrc || 'assets/images/';
 	let _dest = argv.wdest || 'assets/images/';
 	gulp.src(_src+'**/*.{jpg,png,gif,jpeg}')
 			.pipe(rename(function(path){
@@ -127,7 +127,7 @@ gulp.task('svgsprite', (done) => {
 
 // css minify
 gulp.task('cssmin', (done) => {
-	gulp.src('src/css/*.css')
+	gulp.src('_src/css/*.css')
 		.pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
 		.pipe(cleanCSS())
 		.pipe(gulp.dest('assets/css/'));
@@ -137,7 +137,7 @@ gulp.task('cssmin', (done) => {
 
 // js minify
 gulp.task('jsmin', (done) => {
-	gulp.src('src/js/*.js')
+	gulp.src('_src/js/*.js')
 		.pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
 		.pipe(uglifyES())
 		.pipe(gulp.dest('assets/js/'));
@@ -147,8 +147,8 @@ gulp.task('jsmin', (done) => {
 
 // watch
 gulp.task('watch', (done) => {
-		gulp.watch('src/js/*.js', gulp.task('jsmin'));
-		gulp.watch('src/css/*.css', gulp.task('cssmin'));
+		gulp.watch('_src/js/*.js', gulp.task('jsmin'));
+		gulp.watch('_src/css/*.css', gulp.task('cssmin'));
 		done();
 	}
 );
