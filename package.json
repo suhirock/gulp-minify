@@ -15,11 +15,14 @@
     "gulp-notify": "^4.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
     "gulp-svg-sprite": "^1.5.0",
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^2.0.0",
     "gulp-webp": "^4.0.1",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "normalize-url": ">=4.5.1",
+    "prettier": "^2.3.1"
   },
   "author": "suhirock",
   "license": "MIT"
