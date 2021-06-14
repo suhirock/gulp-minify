@@ -18,22 +18,6 @@ const argv = minimist(process.argv.slice(2))
 const _src = argv.src || '_src/'
 const _dest = argv.dest || 'assets/'
 
-// concat css
-// gulp.task('cssconcat', (done) => {
-// 	gulp.src(argv.css)
-//     .pipe(concat(argv.build))
-//     .pipe(gulp.dest('concat/'));
-// 	done();
-// });
-// gulp.task('cssmin-single', (done) => {
-// 	gulp.src(argv.css)
-// 	.pipe(cleanCSS())
-// 	.pipe(rename({ extname: '.min.css' }))
-//     .pipe(gulp.dest('concat/'));
-// 	done();
-// });
-
-
 // image minify
 const imgmin = () => {
 	return src(_src+'images/**/*.{jpg,png,svg,gif}')
@@ -56,34 +40,6 @@ const imgmin = () => {
 		.pipe(dest(_dest+'images/'))
 }
 
-// gulp.task('imagemin', (done) => {
-	
-// 	let _src = argv.src || '_src/images/';
-// 	let _dest = argv.dest || 'assets/images/';
-
-// 	gulp.src(_src+'**/*.{jpg,png,svg,gif}')
-// 		.pipe(imagemin([
-// 			imageminPngquant('70-85'),
-// 			imageminMozjpeg({
-// 				quality: 85
-// 			}),
-// 			imagemin.svgo([
-// 				{ removeViewBox: false },
-// 				{ removeMetadata: false },
-// 				{ removeUnknownsAndDefaults: false },
-// 				{ convertShapeToPath: false },
-// 				{ collapseGroups: false },
-// 				{ cleanupIDs: false },
-// 			]),
-// 			imagemin.gifsicle(),
-// 			imagemin.optipng(),
-// 		]))
-// 		.pipe(gulp.dest(_dest));
-		
-// 	done();
-// 	}
-// );
-
 // image webp
 // gulp.task('webp', (done) => {
 // 	let _src = argv.wsrc || 'assets/images/';
@@ -100,15 +56,6 @@ const imgmin = () => {
 // 	done();
 // });
 
-// imageex = imagemin + webp
-// --src	:	imagemin src
-// --dest	:	imagemin dest
-// --wsrc	:	webp src
-// --wdest	:	webp dest
-// gulp.task('imageex',gulp.series('imagemin','webp',function(done){ 
-// 	done();
-// }));
-
 
 // css minify
 const cssmin = () => {
@@ -117,14 +64,6 @@ const cssmin = () => {
 		.pipe(cleanCSS())
 		.pipe(dest(_dest+'css/'))
 }
-// gulp.task('cssmin', (done) => {
-// 	gulp.src('_src/css/*.css')
-// 		.pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
-// 		.pipe(cleanCSS())
-// 		.pipe(gulp.dest('assets/css/'));
-// 		done();
-// 	}
-// );
 
 // scss
 const scss = () => {
@@ -140,14 +79,6 @@ const jsmin = () => {
 		.pipe(uglifyES())
 		.pipe(dest(_dest+'js/'))
 }
-// gulp.task('jsmin', (done) => {
-// 	gulp.src('_src/js/*.js')
-// 		.pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
-// 		.pipe(uglifyES())
-// 		.pipe(gulp.dest('assets/js/'));
-// 		done();
-// 	}
-// );
 
 // watch
 const watchFiles = (dn) => {
@@ -155,18 +86,15 @@ const watchFiles = (dn) => {
 	watch(_src+'css/*.css',series(cssmin))
 	watch(_src+'css/*.js',series(jsmin))
 }
-// gulp.task('watch', (done) => {
-// 		gulp.watch('_src/js/*.js', gulp.task('jsmin'));
-// 		gulp.watch('_src/css/*.css', gulp.task('cssmin'));
-// 		done();
-// 	}
-// );
 
+// single
+exports.scss = scss
+exports.cssmin = cssmin
+exports.jsmin = jsmin
+exports.imgmin = imgmin
 
-// まとめて実行
-// gulp.task('default',gulp.series('cssmin','jsmin', function(done){
-// 	done();
-// }));
-
-exports.default = watchFiles
+// watch
 exports.watch = watchFiles
+
+// default
+exports.default = series(scss,cssmin,jsmin,imgmin)
