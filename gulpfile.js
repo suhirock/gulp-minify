@@ -15,8 +15,14 @@ const minimist = require('minimist')
 // コマンドライン引数取得
 // シングルキーで渡すとエラーなのでダブルダッシュ -- で渡すほうが吉
 const argv = minimist(process.argv.slice(2))
+
 const _src = argv.src || '_src/'
 const _dest = argv.dest || 'assets/'
+
+const _src_css = argv.src_src || _src+'css/'
+const _src_scss = argv.src_scss || _src_css+'scss/'
+const _dest_css = argv.dest_css || _dest+'css/'
+const _dest_scss = argv.dest_scss || _src_css
 
 // image minify
 const imgmin = () => {
@@ -59,17 +65,17 @@ const imgmin = () => {
 
 // css minify
 const cssmin = () => {
-	return src(_src+'css/*.css')
+	return src(_src_css+'*.css')
 		.pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
 		.pipe(cleanCSS())
-		.pipe(dest(_dest+'css/'))
+		.pipe(dest(_dest_css))
 }
 
 // scss
 const scss = () => {
-	return src(_src+'css/scss/**/*.scss')
+	return src(_src_scss+'**/*.scss')
 		.pipe(sass({outputStyle: "expanded"}))
-		.pipe(dest(_src+'css/'))
+		.pipe(dest(_dest_scss))
 }
 
 // js minify
