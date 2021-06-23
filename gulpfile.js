@@ -18,11 +18,20 @@ const argv = minimist(process.argv.slice(2))
 
 const _src = argv.src || '_src/'
 const _dest = argv.dest || 'assets/'
+const _env = argv.env || 'default'
 
-const _src_css = argv.src_src || _src+'css/'
-const _src_scss = argv.src_scss || _src_css+'scss/'
-const _dest_css = argv.dest_css || _dest+'css/'
-const _dest_scss = argv.dest_scss || _src_css
+const _paths = {
+	default:{
+		_src_css: argv.css_css || _src+'css/',
+		_src_scss: argv.src_scss || _src+'css/scss/',
+		_dest_css: argv.dest_css || _dest+'css/',
+		_dest_scss: argv.dest_scss || _src+'css/',
+	},
+	/**
+	 * you can wright any defaults
+	 */
+}
+
 
 // image minify
 const imgmin = () => {
@@ -65,7 +74,7 @@ const imgmin = () => {
 
 // css minify
 const cssmin = () => {
-	return src(_src_css+'*.css')
+	return src(_paths[_env]['_src_css']+'*.css')
 		.pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
 		.pipe(cleanCSS())
 		.pipe(dest(_dest_css))
@@ -73,9 +82,9 @@ const cssmin = () => {
 
 // scss
 const scss = () => {
-	return src(_src_scss+'**/*.scss')
+	return src(_paths[_env]['_src_scss']+'**/*.scss')
 		.pipe(sass({outputStyle: "expanded"}))
-		.pipe(dest(_dest_scss))
+		.pipe(dest(_paths[_env]['_dest_scss']))
 }
 
 // js minify
@@ -88,9 +97,9 @@ const jsmin = () => {
 
 // watch
 const watchFiles = (dn) => {
-	watch(_src+'css/scss/**/*.scss',series(scss))
-	watch(_src+'css/*.css',series(cssmin))
-	watch(_src+'css/*.js',series(jsmin))
+	watch(_paths[_env]['_src_scss']+'**/*.scss',series(scss))
+	//watch(_paths[_env]['_src_css']+'*.css',series(cssmin))
+	//watch(_src+'js/*.js',series(jsmin))
 }
 
 // single
