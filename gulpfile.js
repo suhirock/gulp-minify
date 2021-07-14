@@ -9,7 +9,7 @@ const notify = require('gulp-notify')
 const concat = require('gulp-concat')
 const rename = require('gulp-rename')
 const webp = require('gulp-webp')
-const sass = require('gulp-sass')
+const sass = require('gulp-sass')(require('sass'))
 const minimist = require('minimist')
 
 // コマンドライン引数取得

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
+  "scripts": {
+    "7b-watch": "gulp watch --src_scss ../ogsc/assets/add_css/ --dest_scss ../ogsc/assets/add_css/"
+  },
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
@@ -15,14 +18,15 @@
     "gulp-notify": "^4.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.1.0",
+    "gulp-sass": "^5.0.0",
     "gulp-svg-sprite": "^1.5.0",
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^2.0.0",
     "gulp-webp": "^4.0.1",
     "minimist": "^1.2.5",
-    "normalize-url": ">=4.5.1",
-    "prettier": "^2.3.1"
+    "normalize-url": ">=7.0.0",
+    "prettier": "^2.3.2",
+    "sass": "^1.32.13"
   },
   "author": "suhirock",
   "license": "MIT"
